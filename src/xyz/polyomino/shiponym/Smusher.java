@@ -3,15 +3,15 @@ package xyz.polyomino.shiponym;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class NameSmusher implements Iterable<Name> {
+public class Smusher implements Iterable<Name> {
 
 	private ArrayList<Name> names;
 
-	public NameSmusher() {
+	public Smusher() {
 		names = new ArrayList<Name>();
 	}
 
-	public NameSmusher(ArrayList<Name> name_list) {
+	public Smusher(ArrayList<Name> name_list) {
 		names = name_list;
 	}
 

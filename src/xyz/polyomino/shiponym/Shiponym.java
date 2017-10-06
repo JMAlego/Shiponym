@@ -63,7 +63,7 @@ public class Shiponym {
 			return;
 		}
 
-		NameSmusher smusher = new NameSmusher();
+		Smusher smusher = new Smusher();
 
 		info("Starting...");
 
