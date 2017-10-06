@@ -1,4 +1,4 @@
-# Shiponym *NameSmusher 500*
+# Shiponym *NameSmusher 5000*
 ## What is this?
 This is a tiny procedural ship-name generator written in Java. This is obviously just for fun and does not pretend to be serious or competent. Though commented, comments will not always be serious either.
 ## Why would you make this?
