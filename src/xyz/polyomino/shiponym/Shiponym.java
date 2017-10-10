@@ -10,7 +10,7 @@ public class Shiponym {
 	/**
 	 * Stores the current version of the program as a string. (And adds some random magic.)
 	 */
-	private static String version = "0.1.1." + (Math.round(Math.random() * 1000f));
+	private static final String version = "0.1.1." + (Math.round(Math.random() * 1000f));
 
 	/**
 	 * Prints the current version of the program.
@@ -24,7 +24,7 @@ public class Shiponym {
 	 * @param text the text to print
 	 */
 	private static void info(String text) {
-		System.out.println("[info] " + text);
+		System.out.println(Colour.Blue("[info] ") + text);
 	}
 
 	/**
@@ -33,7 +33,7 @@ public class Shiponym {
 	 */
 	@SuppressWarnings("unused")
 	private static void warning(String text) {
-		System.out.println("[warning] " + text);
+		System.out.println(Colour.Yellow("[warning] ") + text);
 	}
 
 	/**
@@ -41,7 +41,7 @@ public class Shiponym {
 	 * @param text the text to print
 	 */
 	private static void error(String text) {
-		System.out.println("[error] " + text);
+		System.out.println(Colour.Red("[error] ") + text);
 	}
 
 	/**
@@ -71,9 +71,13 @@ public class Shiponym {
 			smusher.addNameFromString(arg);
 		}
 
+		info("Smushing the following:");
+
 		for (Name name : smusher) {
-			info("Name: " + name);
+			info(" - " + name);
 		}
+
+		info("Running the smusher...");
 
 		info("Finished.");
 
