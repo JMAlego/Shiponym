@@ -30,7 +30,19 @@ public class Smusher implements Iterable<Name> {
 	public void addNameFromString(String new_name) {
 		names.add(new Name(new_name));
 	}
+	
+	//private ArrayList<String> generatePairs() {
+		//
+	//}
 
+	public String smush() {
+		String result = "";
+		
+		
+		
+		return result;
+	}
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
