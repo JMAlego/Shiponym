@@ -1,6 +1,7 @@
 package xyz.polyomino.shiponym;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -135,6 +136,33 @@ public class Name implements Iterable<String> {
 		}else {
 			return last;
 		}
+	}
+	
+	/**
+	 * Generates fragments of the last name from both ends of the name.
+	 * @return the resulting HashSet of name fragments
+	 */
+	public HashSet<String> generateLastNameFragments(){
+		HashSet<String> resultantSet = new HashSet<String>();
+		
+		for(String lastname : last.split("-")) {
+			String currentNameFragment = "";
+			String reversedLastName = "";
+			for(char character : lastname.toCharArray()) {
+				currentNameFragment += character;
+				if (currentNameFragment != "")
+					resultantSet.add(currentNameFragment.toLowerCase());
+				reversedLastName = character + reversedLastName;
+			}
+			currentNameFragment = "";
+			for(char character : reversedLastName.toCharArray()) {
+				currentNameFragment = character + currentNameFragment;
+				if (currentNameFragment != "")
+					resultantSet.add(currentNameFragment.toLowerCase());
+			}
+		}
+		
+		return resultantSet;
 	}
 	
 	/* (non-Javadoc)

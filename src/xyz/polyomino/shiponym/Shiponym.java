@@ -76,6 +76,8 @@ public class Shiponym {
 		for (Name name : smusher) {
 			info(" - " + name);
 		}
+		
+		System.out.println(smusher.combineNameFragments());
 
 		info("Running the smusher...");
 
