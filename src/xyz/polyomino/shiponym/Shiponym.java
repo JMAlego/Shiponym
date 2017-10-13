@@ -1,14 +1,17 @@
 package xyz.polyomino.shiponym;
 
 /**
- * A program for procedurally generating ship names. Blame my fevered mind... and Sam.
+ * A program for procedurally generating ship names. Blame my fevered mind...
+ * and Sam.
+ * 
  * @author Jacob Allen
  *
  */
 public class Shiponym {
 
 	/**
-	 * Stores the current version of the program as a string. (And adds some random magic.)
+	 * Stores the current version of the program as a string. (And adds some random
+	 * magic.)
 	 */
 	private static final String version = "0.1.1." + (Math.round(Math.random() * 1000f));
 
@@ -21,15 +24,29 @@ public class Shiponym {
 
 	/**
 	 * Prints information. Prepends "[info]" to the text supplied and prints it.
-	 * @param text the text to print
+	 * 
+	 * @param text
+	 *            the text to print
 	 */
 	private static void info(String text) {
 		System.out.println(Colour.Blue("[info] ") + text);
 	}
+	
+	/**
+	 * Prints information. Prepends "[debug]" to the text supplied and prints it.
+	 * 
+	 * @param text
+	 *            the text to print
+	 */
+	private static void debug(String text) {
+		System.out.println(Colour.Rainbow("[debug] ") + text);
+	}
 
 	/**
 	 * Prints warnings. Prepends "[warning]" to the text supplied and prints it.
-	 * @param text the text to print
+	 * 
+	 * @param text
+	 *            the text to print
 	 */
 	@SuppressWarnings("unused")
 	private static void warning(String text) {
@@ -38,7 +55,9 @@ public class Shiponym {
 
 	/**
 	 * Prints errors. Prepends "[error]" to the text supplied and prints it.
-	 * @param text the text to print
+	 * 
+	 * @param text
+	 *            the text to print
 	 */
 	private static void error(String text) {
 		System.out.println(Colour.Red("[error] ") + text);
@@ -46,7 +65,9 @@ public class Shiponym {
 
 	/**
 	 * The entry point for the application.
-	 * @param args an array of command line arguments.
+	 * 
+	 * @param args
+	 *            an array of command line arguments.
 	 */
 	public static void main(String[] args) {
 
@@ -76,8 +97,8 @@ public class Shiponym {
 		for (Name name : smusher) {
 			info(" - " + name);
 		}
-		
-		System.out.println(smusher.combineNameFragments());
+
+		debug(smusher.combineNameFragments().toString());
 
 		info("Running the smusher...");
 

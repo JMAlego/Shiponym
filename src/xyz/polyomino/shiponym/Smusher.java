@@ -1,9 +1,10 @@
 package xyz.polyomino.shiponym;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 public class Smusher implements Iterable<Name> {
 
@@ -38,7 +39,9 @@ public class Smusher implements Iterable<Name> {
 	}
 
 	/**
-	 * @return
+	 * Get the average last name length for the instance of Smusher.
+	 * 
+	 * @return the average length as a double
 	 */
 	@SuppressWarnings("unused")
 	private double averageLastNameLength() {
@@ -50,7 +53,9 @@ public class Smusher implements Iterable<Name> {
 	}
 
 	/**
-	 * @return
+	 * Get the average first name length for the instance of Smusher.
+	 * 
+	 * @return the average length as a double
 	 */
 	@SuppressWarnings("unused")
 	private double averageFisrtNameLength() {
@@ -62,42 +67,48 @@ public class Smusher implements Iterable<Name> {
 	}
 
 	/**
-	 * @param remainingSets
-	 * @return
+	 * Distributes
+	 * 
+	 * @param inputSets
+	 *            An ArrayList of HashSets which represent name fragments as
+	 *            strings.
+	 * @return the combination of the input sets
 	 */
-	private HashSet<String> combineStringSets(ArrayList<HashSet<String>> inputSets) {
-		HashSet<String> resultantSet = new HashSet<String>();
-		
-		if(inputSets.isEmpty()) {
+	private Set<String> combineStringSets(List<Set<String>> inputSets) {
+		Set<String> resultantSet = new HashSet<String>();
+
+		if (inputSets.isEmpty()) {
 			return new HashSet<String>();
 		}
-		
+
 		boolean firstTimeAround = true;
-		for(HashSet<String> set : inputSets) {
-			HashSet<String> newResultantSet = new HashSet<String>();
-			if(firstTimeAround) {
+		for (Set<String> set : inputSets) {
+			Set<String> newResultantSet = new HashSet<String>();
+
+			if (firstTimeAround) {
 				newResultantSet.addAll(set);
 				firstTimeAround = false;
-			}else {
-				for(String firstPart : resultantSet) {
-					for(String secondPart : set) {
+			} else {
+				for (String firstPart : resultantSet) {
+					for (String secondPart : set) {
 						newResultantSet.add(firstPart + secondPart);
 						newResultantSet.add(secondPart + firstPart);
 					}
 				}
 			}
+
 			resultantSet = newResultantSet;
 		}
-		
+
 		return resultantSet;
 	}
 
 	/**
 	 * @return
 	 */
-	public HashSet<String> combineNameFragments() {
-		HashSet<String> resultantSet = new HashSet<String>();
-		ArrayList<HashSet<String>> nameFragmentSets = new ArrayList<HashSet<String>>();
+	public Set<String> combineNameFragments() {
+		Set<String> resultantSet = new HashSet<String>();
+		List<Set<String>> nameFragmentSets = new ArrayList<Set<String>>();
 
 		for (Name name : names) {
 			nameFragmentSets.add(name.generateLastNameFragments());
