@@ -1,9 +1,11 @@
 package xyz.polyomino.shiponym;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class Smusher implements Iterable<Name> {
@@ -104,7 +106,26 @@ public class Smusher implements Iterable<Name> {
 	}
 
 	/**
-	 * @return
+	 * Rate the names for how shippy they seem.
+	 * 
+	 * @param names_to_rate
+	 *            the names to rate as a set
+	 * @return the rated names as a dictionary
+	 */
+	public Map<String, Integer> rateNames(Set<String> names_to_rate) {
+		Map<String, Integer> rated_names = new HashMap<String, Integer>();
+		
+		for(String name : names_to_rate) {
+			rated_names.put(name, 0);
+		}
+		
+		return null;
+	}
+
+	/**
+	 * Combines name fragments with even distribution. The first step in smushing.
+	 * 
+	 * @return the set of combined name fragments
 	 */
 	public Set<String> combineNameFragments() {
 		Set<String> resultantSet = new HashSet<String>();
