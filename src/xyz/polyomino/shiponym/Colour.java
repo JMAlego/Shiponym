@@ -16,9 +16,42 @@ public class Colour {
 	private static final String ANSI_PURPLE = "\u001B[35m";
 	private static final String ANSI_CYAN = "\u001B[36m";
 	private static final String ANSI_WHITE = "\u001B[37m";
+	private static final String ANSI_BOLD = "\u001b[1m";
+	private static final String ANSI_UNDERLINED = "\u001b[4m";
+	private static final String ANSI_REVERSED = "\u001b[7m";
 	private static final String[] RAINBOW = { ANSI_RED, ANSI_YELLOW, ANSI_GREEN, ANSI_CYAN, ANSI_BLUE, ANSI_PURPLE };
 	private static final short RAINBOW_LENGTH = 6;
 
+	/**
+	 * Makes the provided text black.
+	 * 
+	 * @param text
+	 *            the text to colour
+	 */
+	public static final String Bold(String text) {
+		return ANSI_BOLD + text + ANSI_RESET;
+	}
+	
+	/**
+	 * Makes the provided text black.
+	 * 
+	 * @param text
+	 *            the text to colour
+	 */
+	public static final String Underlined(String text) {
+		return ANSI_UNDERLINED + text + ANSI_RESET;
+	}
+	
+	/**
+	 * Makes the provided text black.
+	 * 
+	 * @param text
+	 *            the text to colour
+	 */
+	public static final String Reversed(String text) {
+		return ANSI_REVERSED + text + ANSI_RESET;
+	}
+	
 	/**
 	 * Makes the provided text black.
 	 * 

@@ -29,7 +29,7 @@ public class Shiponym {
 	 *            the text to print
 	 */
 	private static void info(String text) {
-		System.out.println(Colour.Blue("[info] ") + text);
+		System.out.println(Colour.Bold(Colour.Blue("[info] ")) + text);
 	}
 	
 	/**
@@ -39,7 +39,7 @@ public class Shiponym {
 	 *            the text to print
 	 */
 	private static void debug(String text) {
-		System.out.println(Colour.Rainbow("[debug] ") + text);
+		System.out.println(Colour.Bold(Colour.Rainbow("[debug] ")) + text);
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class Shiponym {
 	 */
 	@SuppressWarnings("unused")
 	private static void warning(String text) {
-		System.out.println(Colour.Yellow("[warning] ") + text);
+		System.out.println(Colour.Bold(Colour.Yellow("[warning] ")) + text);
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class Shiponym {
 	 *            the text to print
 	 */
 	private static void error(String text) {
-		System.out.println(Colour.Red("[error] ") + text);
+		System.out.println(Colour.Bold(Colour.Red("[error] ")) + text);
 	}
 
 	/**
