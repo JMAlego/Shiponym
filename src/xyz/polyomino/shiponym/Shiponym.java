@@ -1,5 +1,8 @@
 package xyz.polyomino.shiponym;
 
+import java.util.Map;
+import java.util.Set;
+
 /**
  * A program for procedurally generating ship names. Blame my fevered mind...
  * and Sam.
@@ -97,8 +100,14 @@ public class Shiponym {
 		for (Name name : smusher) {
 			info(" - " + name);
 		}
+		
+		Set<String> nameFragments = smusher.combineNameFragments();
 
-		debug(smusher.combineNameFragments().toString());
+		debug(nameFragments.toString());
+		
+		Map<String, Integer> ratedNames = smusher.rateNames(nameFragments);
+		
+		debug(ratedNames.toString());
 
 		info("Running the smusher...");
 

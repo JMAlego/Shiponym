@@ -107,7 +107,7 @@ public class Smusher implements Iterable<Name> {
 
 	/**
 	 * Rate the names for how shippy they seem.
-	 * 
+	 *  
 	 * @param names_to_rate
 	 *            the names to rate as a set
 	 * @return the rated names as a dictionary
@@ -116,10 +116,13 @@ public class Smusher implements Iterable<Name> {
 		Map<String, Integer> rated_names = new HashMap<String, Integer>();
 		
 		for(String name : names_to_rate) {
-			rated_names.put(name, 0);
+			int rating = 100;
+			if(name.length() != averageLastNameLength())
+				rating *= 0.2 + (4.0f/Math.sqrt(Math.pow(name.length(),1.5) + Math.pow(averageLastNameLength(),1.5)));
+			rated_names.put(name, rating);
 		}
 		
-		return null;
+		return rated_names;
 	}
 
 	/**
