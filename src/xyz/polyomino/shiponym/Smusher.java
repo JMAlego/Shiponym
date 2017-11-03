@@ -9,16 +9,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class Smusher implements Iterable<Name> {
 
 	private List<Name> names;
-	private static Set<Character> consonents = new HashSet<Character>(Arrays.asList('b','c','d','f','h','j','k','l','m','n','o','p','q','r','s','t','v','w','x','z'));
-	private static Set<Character> vowels = new HashSet<Character>(Arrays.asList('a','e','i','o','u'));
-	private static Set<Character> vowel_likes = new HashSet<Character>(Arrays.asList('y'));
+	private final static Set<Character> consonents = new HashSet<Character>(Arrays.asList('b','c','d','f','h','j','k','l','m','n','o','p','q','r','s','t','v','w','x','z'));
+	private final static Set<Character> vowels = new HashSet<Character>(Arrays.asList('a','e','i','o','u'));
+	private final static Set<Character> vowel_likes = new HashSet<Character>(Arrays.asList('y'));
 	
-	private static Set<Character> repeatable = new HashSet<Character>(Arrays.asList('e','l','m','n','o','p','t'));
-	private static Set<String> unusual_pairs = new HashSet<String>(Arrays.asList("ht","lh","dt","bk"));
+	private final static Set<Character> repeatable = new HashSet<Character>(Arrays.asList('e','l','m','n','o','p','t'));
+	private final static Set<String> unusual_pairs = new HashSet<String>(Arrays.asList("ht","lh","dt","bk"));
 
 	public Smusher() {
 		names = new ArrayList<Name>();
@@ -174,7 +176,12 @@ public class Smusher implements Iterable<Name> {
 	}
 	
 	public static Set<String> filterResults(Map<String, Integer> rated_names) {
+		return filterResults(rated_names, 10);
+	}
+	
+	public static Set<String> filterResults(Map<String, Integer> rated_names, int result_limit) {
 		Set<String> results = new HashSet<String>();
+		SortedMap<Integer, String> sorted_names = new TreeMap<Integer, String>();
 		double average_rating = 0;
 		int count = 0;
 		
@@ -186,8 +193,18 @@ public class Smusher implements Iterable<Name> {
 		average_rating = Math.max(50, average_rating);
 		
 		for(Entry<String, Integer> rated_name : rated_names.entrySet()) {
-			if(rated_name.getValue() > average_rating)
-				results.add(rated_name.getKey());
+			if(rated_name.getValue() > average_rating) {
+				int offset = 100;
+				while(sorted_names.containsKey(offset + rated_name.getValue()))
+					offset--;
+				sorted_names.put(offset + rated_name.getValue(), rated_name.getKey());	
+			}
+		}
+		
+		for(int i = 0; i < result_limit; i++) {
+			int key = sorted_names.lastKey();
+			results.add(sorted_names.get(key));
+			sorted_names.remove(key);
 		}
 		
 		return results;
