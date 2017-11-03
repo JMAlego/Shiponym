@@ -1,16 +1,24 @@
 package xyz.polyomino.shiponym;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 public class Smusher implements Iterable<Name> {
 
-	private ArrayList<Name> names;
+	private List<Name> names;
+	private static Set<Character> consonents = new HashSet<Character>(Arrays.asList('b','c','d','f','h','j','k','l','m','n','o','p','q','r','s','t','v','w','x','z'));
+	private static Set<Character> vowels = new HashSet<Character>(Arrays.asList('a','e','i','o','u'));
+	private static Set<Character> vowel_likes = new HashSet<Character>(Arrays.asList('y'));
+	
+	private static Set<Character> repeatable = new HashSet<Character>(Arrays.asList('e','l','m','n','o','p','t'));
+	private static Set<String> unusual_pairs = new HashSet<String>(Arrays.asList("ht","lh","dt","bk"));
 
 	public Smusher() {
 		names = new ArrayList<Name>();
@@ -18,6 +26,10 @@ public class Smusher implements Iterable<Name> {
 
 	public Smusher(ArrayList<Name> name_list) {
 		names = name_list;
+	}
+	
+	private static double clamp(double val, double min, double max) {
+	    return Math.max(min, Math.min(max, val));
 	}
 
 	/**
@@ -106,7 +118,7 @@ public class Smusher implements Iterable<Name> {
 	}
 
 	/**
-	 * Rate the names for how shippy they seem.
+	 * Rate the names for how shippy they seem. (And how normal they seem, no strings of just 't's...)
 	 *  
 	 * @param names_to_rate
 	 *            the names to rate as a set
@@ -116,13 +128,69 @@ public class Smusher implements Iterable<Name> {
 		Map<String, Integer> rated_names = new HashMap<String, Integer>();
 		
 		for(String name : names_to_rate) {
+			//Initial rating
 			int rating = 100;
-			if(name.length() != averageLastNameLength())
-				rating *= 0.2 + (4.0f/Math.sqrt(Math.pow(name.length(),1.5) + Math.pow(averageLastNameLength(),1.5)));
+			//Rating 1 - currently disabled
+			/*if(name.length() != averageLastNameLength())
+				rating *= 0.2 + (4.0f/Math.sqrt(Math.pow(name.length(),1.5) + Math.pow(averageLastNameLength(),1.5)));*/
+			
+			//Rating 2
+			double balance = 0;
+			for(Character chr : name.toCharArray()) {
+				if(consonents.contains(chr))
+					balance++;
+				if(vowels.contains(chr))
+					balance--;
+				if(vowel_likes.contains(chr))
+					clamp(-balance,-0.5,0.5);
+			}
+			balance = Math.abs(balance/name.length());
+			rating = (int) (rating*(1-balance));
+			//Rating 3
+			double bad_repeats = 0;
+			Character last = null;
+			Character before = null;
+			for(Character chr : name.toCharArray()) {
+				if(chr == last && !repeatable.contains(chr))
+					bad_repeats++;
+				if(last != null && unusual_pairs.contains(last.toString()+chr.toString()))
+					bad_repeats += 2;
+				if(last != null && before != null && last == before && last == chr)
+					bad_repeats += 3;
+				if(last != null && before != null && consonents.contains(before) && consonents.contains(last) && consonents.contains(chr))
+					bad_repeats += 1;
+				if(last != null && before != null && vowels.contains(before) && vowels.contains(last) && vowels.contains(chr))
+					bad_repeats += 1;
+				before = last;
+				last = chr;
+			}
+			bad_repeats = Math.abs(bad_repeats/name.length());
+			rating = (int) (rating*(1-bad_repeats));
+			//Add fully rated name
 			rated_names.put(name, rating);
 		}
 		
 		return rated_names;
+	}
+	
+	public static Set<String> filterResults(Map<String, Integer> rated_names) {
+		Set<String> results = new HashSet<String>();
+		double average_rating = 0;
+		int count = 0;
+		
+		for(Entry<String, Integer> rated_name : rated_names.entrySet()) {
+			average_rating += rated_name.getValue();
+			count++;
+		}
+		average_rating = average_rating / count;
+		average_rating = Math.max(50, average_rating);
+		
+		for(Entry<String, Integer> rated_name : rated_names.entrySet()) {
+			if(rated_name.getValue() > average_rating)
+				results.add(rated_name.getKey());
+		}
+		
+		return results;
 	}
 
 	/**

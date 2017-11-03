@@ -12,6 +12,8 @@ import java.util.Set;
  */
 public class Shiponym {
 
+	static boolean debug_output_enabled = true;
+	
 	/**
 	 * Stores the current version of the program as a string. (And adds some random
 	 * magic.)
@@ -42,7 +44,8 @@ public class Shiponym {
 	 *            the text to print
 	 */
 	private static void debug(String text) {
-		System.out.println(Colour.Bold(Colour.Rainbow("[debug] ")) + text);
+		if(debug_output_enabled)
+			System.out.println(Colour.Bold(Colour.Rainbow("[debug] ")) + text);
 	}
 
 	/**
@@ -101,15 +104,25 @@ public class Shiponym {
 			info(" - " + name);
 		}
 		
+		info("Generating combined name fragments...");
+		
 		Set<String> nameFragments = smusher.combineNameFragments();
 
 		debug(nameFragments.toString());
 		
+		info("Rating candidates fragments...");
+		
 		Map<String, Integer> ratedNames = smusher.rateNames(nameFragments);
 		
 		debug(ratedNames.toString());
-
-		info("Running the smusher...");
+		
+		info("Filtering candidates...");
+		
+		Set<String> filteredNames = Smusher.filterResults(ratedNames);
+		
+		info("Results:");
+		
+		info(filteredNames.toString());
 
 		info("Finished.");
 
