@@ -85,9 +85,6 @@ public class Shiponym {
 		} else if (args.length == 1) {
 			error("I'm gonna need more than one name to work. =/");
 			return;
-		} else if (args.length > 2) {
-			error("Sorry I only support two names right now. =(");
-			return;
 		}
 
 		Smusher smusher = new Smusher();

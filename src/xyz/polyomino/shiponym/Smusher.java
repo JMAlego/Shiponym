@@ -194,18 +194,22 @@ public class Smusher implements Iterable<Name> {
 		
 		for(Entry<String, Integer> rated_name : rated_names.entrySet()) {
 			if(rated_name.getValue() > average_rating) {
-				int offset = 100;
-				while(sorted_names.containsKey(offset + rated_name.getValue()))
-					offset--;
-				sorted_names.put(offset + rated_name.getValue(), rated_name.getKey());	
+				if(sorted_names.size() > 0) {
+					if(rated_name.getValue() > sorted_names.firstKey()) {
+						while(sorted_names.containsKey(rated_name.getValue()))
+							rated_name.setValue(rated_name.getValue() - 1);
+						sorted_names.put(rated_name.getValue(), rated_name.getKey());
+					}
+				}else {
+					sorted_names.put(rated_name.getValue(), rated_name.getKey());
+				}
+				while(sorted_names.size() > result_limit)
+					sorted_names.remove(sorted_names.firstKey());
 			}
 		}
 		
-		for(int i = 0; i < result_limit; i++) {
-			int key = sorted_names.lastKey();
-			results.add(sorted_names.get(key));
-			sorted_names.remove(key);
-		}
+		for(Entry<Integer, String> sorted_name : sorted_names.entrySet())
+			results.add(sorted_name.getValue());
 		
 		return results;
 	}

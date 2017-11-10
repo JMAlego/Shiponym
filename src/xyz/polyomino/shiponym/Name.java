@@ -110,6 +110,9 @@ public class Name implements Iterable<String> {
 	 * @return the short name
 	 */
 	public String getShortName() {
+		if(first == null) {
+			return getLastName();
+		}
 		return first + " " + last;
 	}
 
